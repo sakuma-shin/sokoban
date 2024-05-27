@@ -6,8 +6,11 @@ using UnityEngine;
 public class GameManagerScript : MonoBehaviour
 {
 
+    
+
     public GameObject playerPreFab;
     public GameObject boxPrefab;
+    public GameObject clearText;
     int[,] map;
 
     GameObject[,] field; //ゲーム管理用の配列
@@ -19,6 +22,8 @@ public class GameManagerScript : MonoBehaviour
 
     void Start()
     {
+        Screen.SetResolution(1280, 720, false);
+
         map = new int[,]{
         { 0, 0, 0, 0, 0 },
         { 1, 2, 2, 0, 0, },
@@ -87,7 +92,7 @@ public class GameManagerScript : MonoBehaviour
             //もしクリアしていたら
             if (IsCleard())
             {
-                Debug.Log("Clear");
+                clearText.SetActive(true);
             }
         }
 
@@ -102,7 +107,7 @@ public class GameManagerScript : MonoBehaviour
             //もしクリアしていたら
             if (IsCleard())
             {
-                Debug.Log("Clear");
+                clearText.SetActive(true);
             }
         }
 
@@ -117,7 +122,7 @@ public class GameManagerScript : MonoBehaviour
             //もしクリアしていたら
             if (IsCleard())
             {
-                Debug.Log("Clear");
+                clearText.SetActive(true);
             }
         }
 
@@ -132,7 +137,7 @@ public class GameManagerScript : MonoBehaviour
             //もしクリアしていたら
             if (IsCleard())
             {
-                Debug.Log("Clear");
+               clearText.SetActive(true);
             }
         }
         //1.をここから記述
@@ -216,8 +221,12 @@ public class GameManagerScript : MonoBehaviour
         //    map[moveFrom] = 0;
         //    return true;
         field[moveTo.y, moveTo.x] = field[moveFrom.y, moveFrom.x];
-        field[moveFrom.y, moveFrom.x].transform.position =
-            new Vector3(moveTo.x, map.GetLength(0) - moveTo.y, 0);
+        //field[moveFrom.y, moveFrom.x].transform.position =
+        //new Vector3(moveTo.x, map.GetLength(0) - moveTo.y, 0);
+
+        Vector3 moveToPosition = new Vector3(moveTo.x, map.GetLength(0) - moveTo.y, 0);
+        field[moveFrom.y, moveFrom.x].GetComponent<Move>().MoveTo(moveToPosition);
+
         field[moveFrom.y, moveFrom.x] = null;
 
         return true;
